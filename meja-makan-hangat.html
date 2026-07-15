@@ -68,6 +68,11 @@
   }
   .btn:active{transform:scale(.97)}
   .btn.ghost{background:none;color:var(--amber-dark);border:1.5px dashed var(--amber);box-shadow:none;font-size:14.5px;padding:12px;margin-top:10px}
+  a.btn{text-align:center;text-decoration:none;width:auto}
+  .btn.gold{
+    background:linear-gradient(180deg,#B98036,#8A5A2B);margin-top:10px;
+    font-size:15.5px;padding:14px;box-shadow:0 6px 16px rgba(107,68,35,.35);
+  }
   .note{font-size:12.5px;color:var(--brown-soft);text-align:center;margin-top:10px;line-height:1.5}
   /* timer */
   .timer-num{font-size:56px;text-align:center;font-variant-numeric:tabular-nums;letter-spacing:2px;margin:10px 0}
@@ -113,7 +118,7 @@
 
   <div class="streakbar">
     <div><div class="num" id="streak">0</div><div class="lbl">malam beruntun 🔥</div></div>
-    <div><div class="num" id="usedCount">0<span style="font-size:15px;color:var(--brown-soft)">/30</span></div><div class="lbl">kartu terpakai</div></div>
+    <div><div class="num" id="usedCount">0<span style="font-size:15px;color:var(--brown-soft)">/10</span></div><div class="lbl">kartu terpakai</div></div>
   </div>
 
   <!-- PAGE: KARTU -->
@@ -125,6 +130,7 @@
     </div>
     <button class="btn" id="drawBtn" onclick="drawCard()">🎴 Tarik Kartu Malam Ini</button>
     <button class="btn ghost" onclick="drawCard(true)">Kartu lain (kalau kurang cocok)</button>
+    <a class="btn gold" href="https://lynk.id/bramantyotriyono" target="_blank">🔓 Buka Edisi Lengkap — 100 Kartu</a>
     <div class="note" id="deepNote"></div>
   </div>
 
@@ -176,6 +182,7 @@
       <li><b>Mulai dari yang ringan.</b> Deep Talk disimpan untuk Jumat/Minggu malam.</li>
     </ul>
     <div class="quote">Di akhir hidup, kita tidak akan ingat berapa email yang kita balas saat makan malam. Kita hanya akan ingat siapa yang duduk di sebelah kita.</div>
+    <a class="btn gold" href="https://lynk.id/bramantyotriyono" target="_blank">🔓 Buka Edisi Lengkap — 100 Kartu</a>
     <button class="btn ghost" onclick="resetAll()">🔄 Reset semua kartu & streak</button>
   </div>
 
@@ -189,7 +196,7 @@
 </div>
 
 <script>
-// ===== data: 30 pertanyaan, 6 kategori =====
+// ===== data: versi gratis — 10 pertanyaan, 6 kategori =====
 const CATS = {
   lucu:      {name:"😄 Ringan & Lucu", hint:"Buat mencairkan suasana."},
   syukur:    {name:"🙏 Refleksi & Syukur", hint:"Buat latih empati."},
@@ -200,36 +207,18 @@ const CATS = {
 };
 const QUESTIONS = [
   {c:"lucu", q:"Hari ini apa yang paling bikin kamu ngakak?"},
-  {c:"lucu", q:"Kalau kamu jadi superhero 1 hari, kekuatannya apa dan buat apa?"},
-  {c:"lucu", q:"Makanan apa yang wajib ada kalau kiamat besok?"},
   {c:"lucu", q:"Kalau rumah kita jadi film, judulnya apa?"},
-  {c:"lucu", q:"Siapa di keluarga ini yang paling jago drama kalau sakit?"},
-  {c:"syukur", q:"Hari ini 1 hal apa yang bikin kamu bangga sama diri sendiri?"},
-  {c:"syukur", q:"Siapa yang paling berjasa buat hari kamu hari ini?"},
   {c:"syukur", q:"Apa 1 hal kecil yang bikin kamu bersyukur hari ini?"},
-  {c:"syukur", q:"Kapan terakhir kali kamu merasa “aku dicintai”?"},
-  {c:"syukur", q:"Kalau boleh ngucapin terima kasih ke 1 orang di meja ini, mau ke siapa dan kenapa?"},
+  {c:"syukur", q:"Siapa yang paling berjasa buat hari kamu hari ini?"},
   {c:"mimpi", q:"5 tahun dari sekarang, kamu pengen lagi ngapain?"},
-  {c:"mimpi", q:"Kalau punya uang 1M tapi harus dihabisin dalam 24 jam buat keluarga, buat apa?"},
   {c:"mimpi", q:"Negara mana yang paling pengen kita kunjungi bareng, dan mau ngapain di sana?"},
-  {c:"mimpi", q:"Kalau boleh punya 1 skill ajaib, mau bisa apa?"},
-  {c:"mimpi", q:"Kerja impian kamu waktu kecil apa? Masih sama nggak?"},
   {c:"kenangan", q:"Kenangan paling lucu kita bareng apa?"},
-  {c:"kenangan", q:"Apa tradisi keluarga yang pengen kamu terusin sampai punya anak nanti?"},
-  {c:"kenangan", q:"1 sifat Papa/Mama yang paling kamu suka apa?"},
-  {c:"kenangan", q:"Kalau kita bikin “Hari Bebas Aturan Keluarga”, aturannya apa?"},
   {c:"kenangan", q:"Momen apa yang bikin kamu ngerasa “ini rumahku banget”?"},
-  {c:"nilai", q:"Menurut kamu, orang sukses itu cirinya apa?"},
-  {c:"nilai", q:"Kalau boleh ubah 1 peraturan di sekolah/kantor, mau ubah apa?"},
-  {c:"nilai", q:"Berita apa minggu ini yang paling ganggu pikiran kamu?"},
   {c:"nilai", q:"Apa arti “rumah” menurut kamu?"},
-  {c:"nilai", q:"Kalau kamu jadi menteri 1 hari, masalah apa yang pertama kamu beresin?"},
-  {c:"deep", q:"Kapan terakhir kali kamu takut? Gimana cara kamu ngelawan rasa takut itu?"},
-  {c:"deep", q:"Apa 1 hal yang pengen kamu coba tapi belum berani?"},
-  {c:"deep", q:"Kalau boleh ngobrol 1 jam sama diri kamu 10 tahun lalu, mau ngomong apa?"},
-  {c:"deep", q:"Apa arti “bahagia” buat kamu sekarang? Beda nggak sama 2 tahun lalu?"},
-  {c:"deep", q:"1 hal apa yang pengen kamu bilang ke kita semua tapi belum sempat?"}
+  {c:"deep", q:"Apa 1 hal yang pengen kamu coba tapi belum berani?"}
 ];
+const TOTAL = QUESTIONS.length;
+const UPSELL = "🔓 Suka ritualnya? Edisi Lengkap punya 100 kartu — cukup untuk 3 bulan lebih tanpa mengulang.";
 
 // ===== storage (fallback ke memori kalau localStorage tak tersedia) =====
 let mem = {};
@@ -248,7 +237,7 @@ function isWeekendNight(){ const d = new Date().getDay(); return d===5 || d===6 
 
 function refreshStats(){
   document.getElementById("streak").textContent = streak;
-  document.getElementById("usedCount").innerHTML = used.length + '<span style="font-size:15px;color:var(--brown-soft)">/30</span>';
+  document.getElementById("usedCount").innerHTML = used.length + '<span style="font-size:15px;color:var(--brown-soft)">/' + TOTAL + '</span>';
   document.getElementById("deepNote").textContent = isWeekendNight()
     ? "🌙 Malam akhir pekan — kartu Deep Talk ikut masuk tumpukan."
     : "Kartu Deep Talk disimpan untuk Jumat–Minggu malam.";
@@ -261,7 +250,7 @@ function drawCard(redraw){
     if(nonDeep.length) pool = nonDeep;
   }
   if(pool.length===0){
-    toast("Semua 30 kartu sudah terpakai! Reset di halaman 💛 Kenapa.");
+    toast("Semua " + TOTAL + " kartu gratis terpakai! " + UPSELL);
     return;
   }
   const pick = pool[Math.floor(Math.random()*pool.length)];
@@ -336,7 +325,7 @@ function resetAll(){
   document.getElementById("qText").textContent="Masukkan semua HP ke keranjang, lalu tarik satu kartu untuk malam ini. 🧺";
   document.getElementById("qHint").textContent="Yang jawab duluan, boleh pilih pertanyaan besok.";
   document.getElementById("drawBtn").textContent="🎴 Tarik Kartu Malam Ini";
-  toast("Tumpukan kartu kembali penuh — 30 kartu siap.");
+  toast("Tumpukan kartu kembali penuh — " + TOTAL + " kartu siap.");
 }
 let toastT=null;
 function toast(msg){
