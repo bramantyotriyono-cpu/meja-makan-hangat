@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Meja Makan Hangat — Quality Time Tanpa Disrupsi</title>
+<style>
+  :root{
+    --cream:#FBF3E4; --paper:#FFF9EF; --amber:#E8963E; --amber-dark:#C9762A;
+    --brown:#4A3426; --brown-soft:#7A5C46; --line:#EAD9BE; --green:#7A9E6E;
+    --shadow:0 8px 24px rgba(74,52,38,.12);
+  }
+  *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+  body{
+    font-family:Georgia,'Times New Roman',serif;
+    background:radial-gradient(circle at 50% -10%, #FFF4DE 0%, var(--cream) 55%, #F3E6CE 100%);
+    color:var(--brown); min-height:100vh;
+  }
+  .app{max-width:480px;margin:0 auto;padding:20px 18px 90px}
+  /* header */
+  header{text-align:center;padding:14px 0 6px}
+  .lamp{font-size:34px;line-height:1}
+  h1{font-size:24px;letter-spacing:.5px;margin-top:6px}
+  .tagline{font-style:italic;color:var(--brown-soft);font-size:13.5px;margin-top:4px}
+  /* streak bar */
+  .streakbar{
+    display:flex;justify-content:space-between;align-items:center;
+    background:var(--paper);border:1px solid var(--line);border-radius:16px;
+    padding:12px 16px;margin:16px 0;box-shadow:var(--shadow);
+  }
+  .streakbar .num{font-size:26px;font-weight:bold;color:var(--amber-dark)}
+  .streakbar .lbl{font-size:12px;color:var(--brown-soft)}
+  .streakbar > div{text-align:center;flex:1}
+  .streakbar > div + div{border-left:1px dashed var(--line)}
+  /* tabs */
+  nav{
+    position:fixed;bottom:0;left:0;right:0;background:var(--paper);
+    border-top:1px solid var(--line);display:flex;max-width:480px;margin:0 auto;
+    box-shadow:0 -4px 16px rgba(74,52,38,.08);border-radius:18px 18px 0 0;
+  }
+  nav button{
+    flex:1;background:none;border:none;padding:11px 4px 13px;cursor:pointer;
+    font-family:inherit;color:var(--brown-soft);font-size:11.5px;
+  }
+  nav button .ico{display:block;font-size:21px;margin-bottom:2px}
+  nav button.active{color:var(--amber-dark);font-weight:bold}
+  .page{display:none}.page.show{display:block;animation:fade .35s ease}
+  @keyframes fade{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+  /* card */
+  .card{
+    background:var(--paper);border:1px solid var(--line);border-radius:22px;
+    box-shadow:var(--shadow);padding:30px 24px;text-align:center;margin:14px 0;
+    min-height:230px;display:flex;flex-direction:column;justify-content:center;gap:14px;
+    position:relative;overflow:hidden;
+  }
+  .card::before{content:"";position:absolute;top:0;left:0;right:0;height:6px;background:linear-gradient(90deg,var(--amber),#F2C14E)}
+  .cat-chip{
+    display:inline-block;margin:0 auto;background:#F7E7CB;color:var(--amber-dark);
+    border-radius:999px;padding:5px 14px;font-size:12px;letter-spacing:.4px;
+  }
+  .q-text{font-size:21px;line-height:1.45}
+  .card .hint{font-size:12.5px;color:var(--brown-soft);font-style:italic}
+  .btn{
+    display:block;width:100%;background:linear-gradient(180deg,var(--amber),var(--amber-dark));
+    color:#fff;border:none;border-radius:16px;padding:16px;font-size:17px;
+    font-family:inherit;cursor:pointer;box-shadow:0 6px 16px rgba(201,118,42,.35);
+    transition:transform .1s;
+  }
+  .btn:active{transform:scale(.97)}
+  .btn.ghost{background:none;color:var(--amber-dark);border:1.5px dashed var(--amber);box-shadow:none;font-size:14.5px;padding:12px;margin-top:10px}
+  .note{font-size:12.5px;color:var(--brown-soft);text-align:center;margin-top:10px;line-height:1.5}
+  /* timer */
+  .timer-num{font-size:56px;text-align:center;font-variant-numeric:tabular-nums;letter-spacing:2px;margin:10px 0}
+  .timer-opts{display:flex;gap:10px;justify-content:center;margin:10px 0}
+  .timer-opts button{
+    background:var(--paper);border:1.5px solid var(--line);border-radius:12px;
+    padding:10px 18px;font-family:inherit;font-size:15px;color:var(--brown);cursor:pointer;
+  }
+  .timer-opts button.sel{border-color:var(--amber);background:#F7E7CB;font-weight:bold}
+  /* music */
+  .music a{
+    display:flex;align-items:center;gap:12px;background:var(--paper);
+    border:1px solid var(--line);border-radius:16px;padding:14px 16px;margin:10px 0;
+    text-decoration:none;color:var(--brown);box-shadow:var(--shadow);
+  }
+  .music a .mi{font-size:24px}
+  .music a small{display:block;color:var(--brown-soft);font-size:12px;margin-top:2px}
+  /* essay */
+  .essay h2{font-size:17px;color:var(--amber-dark);margin:20px 0 8px}
+  .essay p{font-size:14.5px;line-height:1.7;margin-bottom:10px}
+  .essay .quote{
+    background:var(--paper);border-left:4px solid var(--amber);border-radius:0 14px 14px 0;
+    padding:14px 16px;font-style:italic;margin:14px 0;box-shadow:var(--shadow);font-size:14.5px;line-height:1.6;
+  }
+  .rules li{font-size:14.5px;line-height:1.7;margin:8px 0 8px 18px}
+  h3.sec{font-size:15px;color:var(--brown-soft);text-align:center;margin:18px 0 4px;font-weight:normal;font-style:italic}
+  .toast{
+    position:fixed;bottom:84px;left:50%;transform:translateX(-50%);
+    background:var(--brown);color:var(--cream);border-radius:999px;padding:10px 20px;
+    font-size:13.5px;opacity:0;transition:opacity .3s;pointer-events:none;max-width:90%;text-align:center;
+  }
+  .toast.on{opacity:1}
+</style>
+</head>
+<body>
+<div class="app">
+
+  <header>
+    <div class="lamp">🕯️</div>
+    <h1>Meja Makan Hangat</h1>
+    <div class="tagline">"Meja makan adalah kelas paling mahal di rumah."</div>
+  </header>
+
+  <div class="streakbar">
+    <div><div class="num" id="streak">0</div><div class="lbl">malam beruntun 🔥</div></div>
+    <div><div class="num" id="usedCount">0<span style="font-size:15px;color:var(--brown-soft)">/30</span></div><div class="lbl">kartu terpakai</div></div>
+  </div>
+
+  <!-- PAGE: KARTU -->
+  <div class="page show" id="pg-kartu">
+    <div class="card" id="cardBox">
+      <span class="cat-chip" id="catChip">Siap mulai?</span>
+      <div class="q-text" id="qText">Masukkan semua HP ke keranjang, lalu tarik satu kartu untuk malam ini. 🧺</div>
+      <div class="hint" id="qHint">Yang jawab duluan, boleh pilih pertanyaan besok.</div>
+    </div>
+    <button class="btn" id="drawBtn" onclick="drawCard()">🎴 Tarik Kartu Malam Ini</button>
+    <button class="btn ghost" onclick="drawCard(true)">Kartu lain (kalau kurang cocok)</button>
+    <div class="note" id="deepNote"></div>
+  </div>
+
+  <!-- PAGE: TIMER -->
+  <div class="page" id="pg-timer">
+    <div class="card">
+      <span class="cat-chip">⏳ Keranjang HP</span>
+      <div class="timer-num" id="timerNum">45:00</div>
+      <div class="timer-opts">
+        <button onclick="setTimer(30,this)">30 mnt</button>
+        <button class="sel" onclick="setTimer(45,this)">45 mnt</button>
+        <button onclick="setTimer(60,this)">60 mnt</button>
+      </div>
+      <div class="hint">HP masuk keranjang sampai timer selesai.<br>Pelanggar traktir es krim minggu depan. 🍦</div>
+    </div>
+    <button class="btn" id="timerBtn" onclick="toggleTimer()">▶️ Mulai Sesi</button>
+  </div>
+
+  <!-- PAGE: MUSIK -->
+  <div class="page" id="pg-musik">
+    <h3 class="sec">Musik menurunkan kortisol & bikin obrolan mengalir 🎶</h3>
+    <div class="music">
+      <a href="https://open.spotify.com/search/Clair%20de%20Lune%20Debussy" target="_blank">
+        <span class="mi">🌙</span><span><b>Debussy — Clair de Lune</b><small>Gong penutup. Seperti cahaya bulan di ruang makan.</small></span>
+      </a>
+      <a href="https://open.spotify.com/search/dinner%20jazz" target="_blank">
+        <span class="mi">🎷</span><span><b>Playlist "Dinner Jazz"</b><small>Jazz lembut pengiring obrolan.</small></span>
+      </a>
+      <a href="https://open.spotify.com/search/lofi%20piano%20instrumental" target="_blank">
+        <span class="mi">🎹</span><span><b>Lo-fi & Piano Instrumental</b><small>Alternatif rileks tanpa lirik.</small></span>
+      </a>
+    </div>
+    <div class="note">Putar pelan saja — musiknya pengiring, bukan bintang utamanya.</div>
+  </div>
+
+  <!-- PAGE: KENAPA -->
+  <div class="page essay" id="pg-kenapa">
+    <div class="quote">Rumah yang kaya bukan yang TV-nya 85 inch. Rumah yang kaya adalah rumah di mana anak berani cerita gagal, dan orang tua berani bilang "aku juga pernah".</div>
+    <h2>Kenapa "Tanpa Disrupsi" Itu Penting?</h2>
+    <p>American Academy of Pediatrics mengingatkan: screen time berlebihan pada anak berkaitan dengan menurunnya fokus, kemampuan membaca emosi, dan kualitas tidur. Riset Jean Twenge menemukan remaja dengan 5+ jam layar per hari punya risiko 2x lipat merasa tidak bahagia.</p>
+    <p>Kita duduk satu meja tapi chat dengan orang lain. Lama-lama komunikasi jadi transaksional: "PR sudah?" "Udah makan?" Padahal komunikasi bukan soal informasi — komunikasi soal <i>koneksi</i>.</p>
+    <h2>Resepnya Sederhana</h2>
+    <p>30–60 menit sehari: HP mati, notifikasi senyap, semua benar-benar hadir. Robert Putnam menyebutnya <i>bonding social capital</i> — modal kepercayaan yang dibangun lewat waktu bersama berkualitas. Csikszentmihalyi menyebut momen fokus bersama ini <i>flow</i> — di situlah kenangan dibuat.</p>
+    <h2>Aturan Main 🧺</h2>
+    <ul class="rules">
+      <li><b>Keranjang HP wajib.</b> Semua HP masuk keranjang selama sesi. Pelanggar traktir es krim minggu depan.</li>
+      <li><b>Satu kartu tiap malam,</b> giliran menjawab. Yang jawab duluan pilih pertanyaan besok.</li>
+      <li><b>Tidak memotong, tidak menghakimi.</b> Ini ruang aman.</li>
+      <li><b>Mulai dari yang ringan.</b> Deep Talk disimpan untuk Jumat/Minggu malam.</li>
+    </ul>
+    <div class="quote">Di akhir hidup, kita tidak akan ingat berapa email yang kita balas saat makan malam. Kita hanya akan ingat siapa yang duduk di sebelah kita.</div>
+    <button class="btn ghost" onclick="resetAll()">🔄 Reset semua kartu & streak</button>
+  </div>
+
+  <nav>
+    <button class="active" onclick="go('kartu',this)"><span class="ico">🎴</span>Kartu</button>
+    <button onclick="go('timer',this)"><span class="ico">⏳</span>Timer</button>
+    <button onclick="go('musik',this)"><span class="ico">🎶</span>Musik</button>
+    <button onclick="go('kenapa',this)"><span class="ico">💛</span>Kenapa</button>
+  </nav>
+  <div class="toast" id="toast"></div>
+</div>
+
+<script>
+// ===== data: 30 pertanyaan, 6 kategori =====
+const CATS = {
+  lucu:      {name:"😄 Ringan & Lucu", hint:"Buat mencairkan suasana."},
+  syukur:    {name:"🙏 Refleksi & Syukur", hint:"Buat latih empati."},
+  mimpi:     {name:"✨ Mimpi & Imajinasi", hint:"Buat kenal lebih dalam."},
+  kenangan:  {name:"🏠 Keluarga & Kenangan", hint:"Buat memperkuat bonding."},
+  nilai:     {name:"🌍 Dunia & Nilai", hint:"Buat latih cara berpikir."},
+  deep:      {name:"🌙 Deep Talk", hint:"Khusus akhir pekan. Pelan-pelan saja."}
+};
+const QUESTIONS = [
+  {c:"lucu", q:"Hari ini apa yang paling bikin kamu ngakak?"},
+  {c:"lucu", q:"Kalau kamu jadi superhero 1 hari, kekuatannya apa dan buat apa?"},
+  {c:"lucu", q:"Makanan apa yang wajib ada kalau kiamat besok?"},
+  {c:"lucu", q:"Kalau rumah kita jadi film, judulnya apa?"},
+  {c:"lucu", q:"Siapa di keluarga ini yang paling jago drama kalau sakit?"},
+  {c:"syukur", q:"Hari ini 1 hal apa yang bikin kamu bangga sama diri sendiri?"},
+  {c:"syukur", q:"Siapa yang paling berjasa buat hari kamu hari ini?"},
+  {c:"syukur", q:"Apa 1 hal kecil yang bikin kamu bersyukur hari ini?"},
+  {c:"syukur", q:"Kapan terakhir kali kamu merasa “aku dicintai”?"},
+  {c:"syukur", q:"Kalau boleh ngucapin terima kasih ke 1 orang di meja ini, mau ke siapa dan kenapa?"},
+  {c:"mimpi", q:"5 tahun dari sekarang, kamu pengen lagi ngapain?"},
+  {c:"mimpi", q:"Kalau punya uang 1M tapi harus dihabisin dalam 24 jam buat keluarga, buat apa?"},
+  {c:"mimpi", q:"Negara mana yang paling pengen kita kunjungi bareng, dan mau ngapain di sana?"},
+  {c:"mimpi", q:"Kalau boleh punya 1 skill ajaib, mau bisa apa?"},
+  {c:"mimpi", q:"Kerja impian kamu waktu kecil apa? Masih sama nggak?"},
+  {c:"kenangan", q:"Kenangan paling lucu kita bareng apa?"},
+  {c:"kenangan", q:"Apa tradisi keluarga yang pengen kamu terusin sampai punya anak nanti?"},
+  {c:"kenangan", q:"1 sifat Papa/Mama yang paling kamu suka apa?"},
+  {c:"kenangan", q:"Kalau kita bikin “Hari Bebas Aturan Keluarga”, aturannya apa?"},
+  {c:"kenangan", q:"Momen apa yang bikin kamu ngerasa “ini rumahku banget”?"},
+  {c:"nilai", q:"Menurut kamu, orang sukses itu cirinya apa?"},
+  {c:"nilai", q:"Kalau boleh ubah 1 peraturan di sekolah/kantor, mau ubah apa?"},
+  {c:"nilai", q:"Berita apa minggu ini yang paling ganggu pikiran kamu?"},
+  {c:"nilai", q:"Apa arti “rumah” menurut kamu?"},
+  {c:"nilai", q:"Kalau kamu jadi menteri 1 hari, masalah apa yang pertama kamu beresin?"},
+  {c:"deep", q:"Kapan terakhir kali kamu takut? Gimana cara kamu ngelawan rasa takut itu?"},
+  {c:"deep", q:"Apa 1 hal yang pengen kamu coba tapi belum berani?"},
+  {c:"deep", q:"Kalau boleh ngobrol 1 jam sama diri kamu 10 tahun lalu, mau ngomong apa?"},
+  {c:"deep", q:"Apa arti “bahagia” buat kamu sekarang? Beda nggak sama 2 tahun lalu?"},
+  {c:"deep", q:"1 hal apa yang pengen kamu bilang ke kita semua tapi belum sempat?"}
+];
+
+// ===== storage (fallback ke memori kalau localStorage tak tersedia) =====
+let mem = {};
+const store = {
+  get(k){ try{ return localStorage.getItem(k); }catch(e){ return mem[k] ?? null; } },
+  set(k,v){ try{ localStorage.setItem(k,v); }catch(e){ mem[k]=v; } },
+  del(k){ try{ localStorage.removeItem(k); }catch(e){ delete mem[k]; } }
+};
+
+let used = JSON.parse(store.get("used") || "[]");
+let streak = parseInt(store.get("streak") || "0");
+let lastDay = store.get("lastDay") || "";
+
+function today(){ return new Date().toISOString().slice(0,10); }
+function isWeekendNight(){ const d = new Date().getDay(); return d===5 || d===6 || d===0; } // Jum/Sab/Ming
+
+function refreshStats(){
+  document.getElementById("streak").textContent = streak;
+  document.getElementById("usedCount").innerHTML = used.length + '<span style="font-size:15px;color:var(--brown-soft)">/30</span>';
+  document.getElementById("deepNote").textContent = isWeekendNight()
+    ? "🌙 Malam akhir pekan — kartu Deep Talk ikut masuk tumpukan."
+    : "Kartu Deep Talk disimpan untuk Jumat–Minggu malam.";
+}
+
+function drawCard(redraw){
+  let pool = QUESTIONS.map((q,i)=>({...q,i})).filter(q=>!used.includes(q.i));
+  if(!isWeekendNight()) {
+    const nonDeep = pool.filter(q=>q.c!=="deep");
+    if(nonDeep.length) pool = nonDeep;
+  }
+  if(pool.length===0){
+    toast("Semua 30 kartu sudah terpakai! Reset di halaman 💛 Kenapa.");
+    return;
+  }
+  const pick = pool[Math.floor(Math.random()*pool.length)];
+  used.push(pick.i);
+  store.set("used", JSON.stringify(used));
+
+  // streak: naik sekali per hari kalender, beruntun
+  const t = today();
+  if(lastDay !== t){
+    const y = new Date(Date.now()-864e5).toISOString().slice(0,10);
+    streak = (lastDay === y) ? streak+1 : 1;
+    lastDay = t;
+    store.set("streak", String(streak));
+    store.set("lastDay", t);
+    if(streak>1) toast("🔥 " + streak + " malam beruntun! Pertahankan.");
+  }
+
+  const cat = CATS[pick.c];
+  document.getElementById("catChip").textContent = cat.name;
+  document.getElementById("qText").textContent = pick.q;
+  document.getElementById("qHint").textContent = cat.hint;
+  const box = document.getElementById("cardBox");
+  box.style.animation = "none"; void box.offsetWidth; box.style.animation = "fade .4s ease";
+  document.getElementById("drawBtn").textContent = "🎴 Tarik Kartu Besok Lagi";
+  refreshStats();
+}
+
+// ===== timer =====
+let dur = 45*60, left = dur, tick = null;
+function fmt(s){ return String(Math.floor(s/60)).padStart(2,"0")+":"+String(s%60).padStart(2,"0"); }
+function setTimer(m,btn){
+  if(tick) return toast("Hentikan sesi dulu sebelum ganti durasi.");
+  dur = left = m*60;
+  document.getElementById("timerNum").textContent = fmt(left);
+  document.querySelectorAll(".timer-opts button").forEach(b=>b.classList.remove("sel"));
+  btn.classList.add("sel");
+}
+function toggleTimer(){
+  const btn = document.getElementById("timerBtn");
+  if(tick){
+    clearInterval(tick); tick=null; left=dur;
+    document.getElementById("timerNum").textContent = fmt(left);
+    btn.textContent = "▶️ Mulai Sesi";
+    return;
+  }
+  btn.textContent = "⏹ Hentikan";
+  tick = setInterval(()=>{
+    left--;
+    document.getElementById("timerNum").textContent = fmt(Math.max(left,0));
+    if(left<=0){
+      clearInterval(tick); tick=null; left=dur;
+      btn.textContent = "▶️ Mulai Sesi";
+      document.getElementById("timerNum").textContent = "🎉";
+      toast("Sesi selesai! HP boleh keluar dari keranjang. Sampai besok 💛");
+    }
+  },1000);
+}
+
+// ===== nav & util =====
+function go(id,btn){
+  document.querySelectorAll(".page").forEach(p=>p.classList.remove("show"));
+  document.getElementById("pg-"+id).classList.add("show");
+  document.querySelectorAll("nav button").forEach(b=>b.classList.remove("active"));
+  btn.classList.add("active");
+}
+function resetAll(){
+  if(!confirm("Reset semua kartu terpakai dan streak?")) return;
+  used=[]; streak=0; lastDay="";
+  ["used","streak","lastDay"].forEach(k=>store.del(k));
+  refreshStats();
+  document.getElementById("catChip").textContent="Siap mulai?";
+  document.getElementById("qText").textContent="Masukkan semua HP ke keranjang, lalu tarik satu kartu untuk malam ini. 🧺";
+  document.getElementById("qHint").textContent="Yang jawab duluan, boleh pilih pertanyaan besok.";
+  document.getElementById("drawBtn").textContent="🎴 Tarik Kartu Malam Ini";
+  toast("Tumpukan kartu kembali penuh — 30 kartu siap.");
+}
+let toastT=null;
+function toast(msg){
+  const t=document.getElementById("toast");
+  t.textContent=msg; t.classList.add("on");
+  clearTimeout(toastT); toastT=setTimeout(()=>t.classList.remove("on"),3200);
+}
+refreshStats();
+</script>
+</body>
+</html>
